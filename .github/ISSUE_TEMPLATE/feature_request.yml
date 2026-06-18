@@ -1,0 +1,66 @@
+name: Feature request
+description: Suggest a new feature, mechanic, or improvement for the module.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the idea! Before filing:
+
+        - **Search existing issues** so you're not duplicating a request.
+        - For open-ended brainstorming or "would it be cool if…" chat, consider
+          [Discussions](../../discussions) — use this form when you have a concrete
+          request.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues and didn't find a duplicate request.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: What are you trying to do that's hard or impossible today? Describe the need, not just the solution.
+      placeholder: When running a biotic build, I can't easily track … because …
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed feature
+      description: Describe the feature or behavior you'd like. Be as concrete as you can.
+    validations:
+      required: true
+
+  - type: textarea
+    id: rules-reference
+    attributes:
+      label: Rules reference
+      description: >
+        If this maps to something in the Mass Effect 5e community rules, link or quote
+        the relevant rule so the implementation can match it. Leave blank if it's a
+        pure quality-of-life / UI request.
+    validations:
+      required: false
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives or workarounds
+      description: Anything you currently do to work around this, or other approaches you considered. Optional.
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Screenshots, mockups, examples from other modules, or anything else that helps. Optional.
+    validations:
+      required: false

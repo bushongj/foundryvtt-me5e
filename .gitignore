@@ -1,0 +1,8 @@
+# OS / editor cruft
+.DS_Store
+.vscode/
+.idea/
+node_modules/
+
+# This is the distribution repo — the compiled LevelDB packs under packs/<name>/
+# (including their *.log files) ARE shipped content and must NOT be ignored.

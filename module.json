@@ -1,0 +1,189 @@
+{
+  "id": "me5e",
+  "title": "Mass Effect 5e",
+  "description": "A Mass Effect setting layer for the D&D 5e system: shields, biotic/tech/combat powers with cooldowns and combos, weapon heat, Paragon/Renegade reputation, and ME species/classes.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "14"
+  },
+  "authors": [
+    {
+      "name": "bushongj"
+    }
+  ],
+  "url": "https://github.com/bushongj/foundryvtt-me5e",
+  "manifest": "https://github.com/bushongj/foundryvtt-me5e/releases/latest/download/module.json",
+  "download": "https://github.com/bushongj/foundryvtt-me5e/releases/download/v0.1.0/me5e.zip",
+  "esmodules": [
+    "scripts/me5e.mjs"
+  ],
+  "styles": [
+    "styles/me5e.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "packs": [
+    {
+      "name": "species",
+      "label": "ME5e Species",
+      "path": "packs/species",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "species-features",
+      "label": "ME5e Species Features",
+      "path": "packs/species-features",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "classes",
+      "label": "ME5e Classes",
+      "path": "packs/classes",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "backgrounds",
+      "label": "ME5e Backgrounds",
+      "path": "packs/backgrounds",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "weapons",
+      "label": "ME5e Weapons",
+      "path": "packs/weapons",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "armor",
+      "label": "ME5e Armor",
+      "path": "packs/armor",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "powers",
+      "label": "ME5e Powers",
+      "path": "packs/powers",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "weapon-mods",
+      "label": "ME5e Weapon Mods",
+      "path": "packs/weapon-mods",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "armor-mods",
+      "label": "ME5e Armor Mods",
+      "path": "packs/armor-mods",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "items",
+      "label": "ME5e Equipment & Items",
+      "path": "packs/items",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "feats",
+      "label": "ME5e Feats",
+      "path": "packs/feats",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "edges",
+      "label": "ME5e Feature Options",
+      "path": "packs/edges",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "benefits",
+      "label": "ME5e Reputation Benefits",
+      "path": "packs/benefits",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "bestiary",
+      "label": "ME5e Bestiary",
+      "path": "packs/bestiary",
+      "type": "Actor",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "vehicles",
+      "label": "ME5e Vehicles",
+      "path": "packs/vehicles",
+      "type": "Actor",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "subclasses",
+      "label": "ME5e Subclasses",
+      "path": "packs/subclasses",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "class-features",
+      "label": "ME5e Class Features",
+      "path": "packs/class-features",
+      "type": "Item",
+      "system": "dnd5e",
+      "flags": {}
+    }
+  ],
+  "packFolders": [
+    {
+      "name": "Mass Effect 5e",
+      "sorting": "m",
+      "color": "#1f4a7a",
+      "packs": ["species", "species-features", "classes", "subclasses", "class-features", "backgrounds", "weapons", "armor", "powers", "weapon-mods", "armor-mods", "items", "feats", "edges", "benefits", "bestiary", "vehicles"]
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "3.3.0",
+          "verified": "5.3.3"
+        }
+      }
+    ]
+  }
+}

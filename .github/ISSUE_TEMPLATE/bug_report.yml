@@ -1,0 +1,109 @@
+name: Bug report
+description: Something in the Mass Effect 5e module isn't working as expected.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug! A few things first:
+
+        - **Search existing issues** to check it hasn't already been reported.
+        - For **questions, ideas, or "how do I…"** posts, please use
+          [Discussions](../../discussions) instead — this tracker is for bugs.
+        - The more of the fields below you fill in, the faster it can be fixed.
+
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Pre-flight checks
+      options:
+        - label: I searched existing issues and didn't find a duplicate.
+          required: true
+        - label: I'm running the latest version of the module that works with my Foundry version.
+          required: true
+        - label: I reproduced this with **only** the dnd5e system and Mass Effect 5e enabled (all other modules disabled). If I couldn't, I've said so below.
+          required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: A clear description of the bug — what went wrong, and what you expected to happen instead.
+      placeholder: When I do X, Y happens, but I expected Z.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Exact steps so it can be reproduced from a fresh world if possible.
+      placeholder: |
+        1. Create a character and add the '…' class
+        2. Equip the '…' weapon
+        3. Click '…'
+        4. See the error
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console errors
+      description: >
+        Open the developer console (press F12, then the "Console" tab), reproduce
+        the bug, and paste any red error text here. This is often the single most
+        useful piece of information. Leave blank if there are none.
+      render: text
+    validations:
+      required: false
+
+  - type: input
+    id: me5e-version
+    attributes:
+      label: Mass Effect 5e version
+      description: Shown in Manage Modules, or in module.json.
+      placeholder: e.g. 0.1.0
+    validations:
+      required: true
+
+  - type: input
+    id: foundry-version
+    attributes:
+      label: Foundry VTT version
+      description: Shown at the bottom of the Foundry setup screen (build number too, if you have it).
+      placeholder: e.g. 13.346
+    validations:
+      required: true
+
+  - type: input
+    id: dnd5e-version
+    attributes:
+      label: D&D 5e system version
+      description: Shown under Game Systems on the setup screen.
+      placeholder: e.g. 5.3.3
+    validations:
+      required: true
+
+  - type: textarea
+    id: other-modules
+    attributes:
+      label: Other active modules
+      description: >
+        List any other modules that were active when the bug occurred. If you were
+        able to reproduce it with only dnd5e + Mass Effect 5e, write "none — reproduced
+        on a clean setup".
+      placeholder: |
+        - none — reproduced with only dnd5e + Mass Effect 5e
+        (or list them: Dice So Nice, Token Action HUD, …)
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots or video
+      description: Drag images/clips here if they help show the problem (e.g. the sheet, the chat card, the error). Optional.
+    validations:
+      required: false

@@ -1,0 +1,869 @@
+/* ME5e injected panels — match the dnd5e v5 character sheet */
+
+/* Prime / Detonate buttons injected onto a combo power's cast card. */
+.me5e-combo-button {
+  border-left: 3px solid #d9682a;
+}
+
+.me5e-injected {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: none;
+  box-sizing: border-box;
+}
+
+.me5e-injected-defense {
+  margin: 0;
+  padding: 0;
+}
+
+.me5e-injected-reputation {
+  margin: 6px 0;
+  padding: 2px 0;
+}
+
+/* ----- Shields & Barriers meters ------------------------------------- */
+/* Use dnd5e's .meter-group / .meter.progress markup so dnd5e's own meter
+   rules apply (1px gold border, 25px height, inset shadow, --bar-percentage
+   driven fill). We add gradient + inset-fill rules per ME5e class. */
+
+.me5e-injected-defense .meter.me5e-tech-armor,
+.me5e-injected-defense .meter.me5e-shields,
+.me5e-injected-defense .meter.me5e-barriers {
+  height: 25px;
+  font-size: var(--font-size-14, 14px);
+}
+
+.me5e-injected-defense .meter.me5e-tech-armor.progress::before {
+  background: linear-gradient(to right, #a04a00 0%, #ffb84c 100%);
+  border-inline-end: none;
+  block-size: unset;
+  clip-path: unset;
+  box-shadow: inset 0 1px 0 1px var(--dnd5e-highlight-40, rgba(255, 255, 255, 0.25));
+  inset: 1px auto 1px 1px;
+  inline-size: calc(var(--bar-percentage) - 2px);
+  border-radius: 2px;
+}
+
+.me5e-injected-defense .meter.me5e-shields.progress::before {
+  background: linear-gradient(to right, #1f4a7a 0%, #4cb6ff 100%);
+  border-inline-end: none;
+  block-size: unset;
+  clip-path: unset;
+  box-shadow: inset 0 1px 0 1px var(--dnd5e-highlight-40, rgba(255, 255, 255, 0.25));
+  inset: 1px auto 1px 1px;
+  inline-size: calc(var(--bar-percentage) - 2px);
+  border-radius: 2px;
+}
+
+.me5e-injected-defense .meter.me5e-barriers.progress::before {
+  background: linear-gradient(to right, #4a2d8a 0%, #a76dff 100%);
+  border-inline-end: none;
+  block-size: unset;
+  clip-path: unset;
+  box-shadow: inset 0 1px 0 1px var(--dnd5e-highlight-40, rgba(255, 255, 255, 0.25));
+  inset: 1px auto 1px 1px;
+  inline-size: calc(var(--bar-percentage) - 2px);
+  border-radius: 2px;
+}
+
+/* Shields regen button — small icon button in the meter-group label row.
+   Click adds the equipped armor's combined regen value to current shields,
+   capped at max. */
+.me5e-injected-defense .meter-group .label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.me5e-meter-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+/* HP controls sit in dnd5e's own meter-group label row; push to the right
+   edge so the "Hit Points" label stays left-aligned. */
+.me5e-hp-controls {
+  margin-inline-start: auto;
+}
+
+.me5e-meter-controls button,
+.me5e-shields-regen-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 3px;
+  color: inherit;
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.me5e-meter-controls button:hover:not(:disabled),
+.me5e-shields-regen-button:hover:not(:disabled) {
+  background: rgba(156, 138, 89, 0.22);
+}
+
+.me5e-meter-controls button:disabled,
+.me5e-shields-regen-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.me5e-shields-regen-button:hover:not(:disabled) {
+  background: rgba(76, 182, 255, 0.18);
+}
+
+/* Inputs overlaid on the meter — transparent, light text matching dnd5e's
+   .meter .label .value / .max spans, with gold text-shadow */
+.me5e-injected-defense .meter .label input[type="number"] {
+  background: transparent;
+  border: none;
+  color: var(--color-text-light-0, #fff);
+  text-align: center;
+  font: inherit;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+  width: 32px;
+  padding: 0;
+  text-shadow: 0 0 4px var(--dnd5e-color-gold, #9f9275);
+  -moz-appearance: textfield;
+}
+
+.me5e-injected-defense .meter .label input[type="number"]::-webkit-outer-spin-button,
+.me5e-injected-defense .meter .label input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.me5e-injected-defense .meter .label input[type="number"]:focus {
+  outline: 1px solid var(--dnd5e-color-gold, #9f9275);
+}
+
+/* ----- Vehicle Shields (mirrors vehicle HP .pills-group .counter) ---- */
+
+.me5e-vehicle-shields-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.me5e-vehicle-shields-counter input[type="number"] {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  width: 32px;
+  padding: 0;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  -moz-appearance: textfield;
+}
+
+.me5e-vehicle-shields-counter input[type="number"]::-webkit-outer-spin-button,
+.me5e-vehicle-shields-counter input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.me5e-vehicle-shields-counter input[type="number"]:focus {
+  outline: 1px solid var(--dnd5e-color-gold, #9f9275);
+  border-radius: 2px;
+}
+
+.me5e-vehicle-shields-counter .separator {
+  opacity: 0.55;
+}
+
+/* ----- Reputation (filigree-box, matches Skills / Saving Throws) ----- */
+
+filigree-box.me5e-reputation {
+  display: block;
+}
+
+/* "Reputation" header — intentionally NO color override. filigree-box's own
+   CSS applies --color-text-title to the label span and --color-text-secondary
+   to the icon, both of which are theme-aware and flip automatically between
+   light and dark mode, matching Skills / Saves / Tools headers. */
+
+/* Body padding mirrors dnd5e's .skills > ul padding so spacing inside the
+   filigree shape matches the Skills / Saves boxes. */
+filigree-box.me5e-reputation .me5e-rep-body {
+  padding: 0 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+filigree-box.me5e-reputation .me5e-rep-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+filigree-box.me5e-reputation .me5e-rep-row label {
+  font-family: var(--dnd5e-font-roboto-condensed, var(--dnd5e-font-roboto, inherit));
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 11px;
+  color: inherit;
+  flex: 0 0 90px;
+}
+
+filigree-box.me5e-reputation .me5e-rep-paragon-input,
+filigree-box.me5e-reputation .me5e-rep-renegade-input {
+  flex: 0 0 auto;
+  width: 60px;
+  padding: 2px 4px;
+  text-align: center;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: inherit;
+  box-sizing: border-box;
+}
+
+/* ----- Armor loadout panel (inventory tab) --------------------------- */
+
+.me5e-injected-armor-loadout {
+  margin: 6px 0;
+}
+
+.me5e-armor-loadout {
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.me5e-armor-loadout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: var(--dnd5e-font-roboto-condensed, var(--dnd5e-font-roboto, inherit));
+}
+
+.me5e-armor-loadout-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+}
+
+.me5e-armor-loadout-totals {
+  display: flex;
+  gap: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  opacity: 0.85;
+}
+
+.me5e-armor-loadout-totals strong {
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.me5e-armor-loadout-slots {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.me5e-armor-slot {
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 3px;
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 11px;
+  min-height: 76px;
+  background: rgba(0, 0, 0, 0.03);
+  transition: background 120ms ease-in-out;
+}
+
+.me5e-armor-slot.wide {
+  grid-column: span 3;
+}
+
+.me5e-armor-slot.empty {
+  border-style: dashed;
+  opacity: 0.5;
+}
+
+.me5e-armor-slot.equipped {
+  cursor: pointer;
+}
+
+.me5e-armor-slot.equipped:hover {
+  background: rgba(156, 138, 89, 0.18);
+}
+
+/* Red glow when the character is not proficient with the equipped gear. */
+.me5e-weapon-slot.not-proficient,
+.me5e-armor-slot.not-proficient {
+  border-color: #e23b1f;
+  box-shadow: 0 0 6px 1px rgba(226, 59, 31, 0.7);
+}
+
+.me5e-armor-slot-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.me5e-armor-slot-icon {
+  margin: 2px 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.me5e-armor-slot-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: none;
+}
+
+.me5e-armor-slot-name {
+  font-size: 11px;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.me5e-armor-slot-bonus {
+  font-weight: 700;
+  font-size: 11px;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.me5e-armor-buffs {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.me5e-armor-buff {
+  font-family: var(--dnd5e-font-roboto-condensed, var(--dnd5e-font-roboto, inherit));
+  font-size: 11px;
+  line-height: 1.2;
+  padding: 2px 6px;
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 10px;
+  background: rgba(156, 138, 89, 0.12);
+  white-space: nowrap;
+}
+
+/* Set-bonus chips: blue accent to distinguish from per-piece buffs. */
+.me5e-armor-buff.set {
+  border-color: #4cb6ff;
+  background: rgba(76, 182, 255, 0.14);
+  cursor: help;
+}
+
+.me5e-armor-loadout-warning {
+  margin-top: 6px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 11px;
+  line-height: 1.3;
+  font-family: var(--dnd5e-font-roboto-condensed, var(--dnd5e-font-roboto, inherit));
+}
+
+.me5e-armor-loadout-warning.warn {
+  background: rgba(204, 153, 0, 0.16);
+  border-left: 3px solid #cc9900;
+  color: inherit;
+}
+
+.me5e-armor-loadout-warning.severe {
+  background: rgba(170, 0, 0, 0.18);
+  border-left: 3px solid #aa0000;
+  color: inherit;
+  font-weight: 600;
+}
+
+/* ----- Weapon loadout panel (inventory tab) -------------------------- */
+
+.me5e-injected-weapon-loadout {
+  margin: 6px 0;
+}
+
+.me5e-weapon-loadout {
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 4px;
+  padding: 6px 8px;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.me5e-weapon-loadout-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-family: var(--dnd5e-font-roboto-condensed, var(--dnd5e-font-roboto, inherit));
+}
+
+.me5e-weapon-loadout-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 12px;
+}
+
+.me5e-weapon-loadout-slots {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.me5e-weapon-slot {
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 3px;
+  padding: 6px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 11px;
+  min-height: 76px;
+  background: rgba(0, 0, 0, 0.03);
+  transition: background 120ms ease-in-out;
+}
+
+.me5e-weapon-slot.wide {
+  grid-column: span 2;
+}
+
+.me5e-weapon-slot.empty {
+  border-style: dashed;
+  opacity: 0.5;
+}
+
+.me5e-weapon-slot.equipped {
+  cursor: pointer;
+}
+
+.me5e-weapon-slot.equipped:hover {
+  background: rgba(156, 138, 89, 0.18);
+}
+
+.me5e-weapon-slot-label {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 10px;
+  opacity: 0.7;
+}
+
+.me5e-weapon-slot-icon {
+  margin: 2px 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  opacity: 0.8;
+}
+
+.me5e-weapon-slot-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: none;
+}
+
+.me5e-weapon-slot-name {
+  font-size: 11px;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.me5e-weapon-slot-formula {
+  font-weight: 700;
+  font-size: 11px;
+  margin-top: 2px;
+  font-variant-numeric: tabular-nums;
+}
+
+.me5e-weapon-slot-props {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.me5e-weapon-fire-row {
+  display: flex;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.me5e-weapon-fire,
+.me5e-weapon-burst,
+.me5e-weapon-doubletap,
+.me5e-weapon-sustain,
+.me5e-weapon-endsustain {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  flex: 1;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: inherit;
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 4px;
+  background: rgba(156, 138, 89, 0.12);
+  cursor: pointer;
+}
+
+.me5e-weapon-fire:hover,
+.me5e-weapon-burst:hover,
+.me5e-weapon-doubletap:hover,
+.me5e-weapon-sustain:hover,
+.me5e-weapon-endsustain:hover {
+  background: rgba(226, 59, 31, 0.22);
+  border-color: #e23b1f;
+}
+
+/* ----- Weapon heat meter --------------------------------------------- */
+
+.me5e-weapon-heat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  width: 100%;
+}
+
+.me5e-weapon-heat-track {
+  position: relative;
+  flex: 1;
+  height: 14px;
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 7px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.me5e-weapon-heat-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  /* Heat counts down — the fill is charge remaining, so a full bar reads as
+     "ready" (cool blue), draining toward empty. */
+  background: linear-gradient(90deg, #2f6ea5, #4ba3d4);
+  transition: width 0.15s ease;
+}
+
+.me5e-weapon-heat.empty .me5e-weapon-heat-track {
+  border-color: #e23b1f;
+  animation: me5e-heat-pulse 0.9s ease-in-out infinite;
+}
+
+.me5e-weapon-heat.empty .me5e-weapon-heat-label {
+  color: #e23b1f;
+}
+
+@keyframes me5e-heat-pulse {
+  50% { opacity: 0.55; }
+}
+
+.me5e-weapon-heat-label {
+  position: relative;
+  display: block;
+  text-align: center;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 14px;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.9);
+  color: #fff;
+}
+
+.me5e-weapon-heat-reload {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 16px;
+  padding: 0;
+  font-size: 10px;
+  line-height: 1;
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 3px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.me5e-weapon-heat-reload:hover:not(:disabled) {
+  background: rgba(156, 138, 89, 0.22);
+}
+
+.me5e-weapon-heat-reload:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.me5e-weapon-prop {
+  font-family: var(--dnd5e-font-roboto-condensed, var(--dnd5e-font-roboto, inherit));
+  font-size: 10px;
+  line-height: 1.2;
+  padding: 1px 5px;
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 8px;
+  background: rgba(156, 138, 89, 0.12);
+  white-space: nowrap;
+}
+
+/* ME5e doesn't use attunement — hide dnd5e's inventory-tab counter and the
+   per-item attune button. */
+[data-application-part="inventory"] .middle .attunement,
+.item-action[data-action="attune"] {
+  display: none;
+}
+
+/* ----- Weapon mod slot pips ------------------------------------------ */
+
+.me5e-weapon-slot-mods,
+.me5e-armor-slot-mods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.me5e-mod-pip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 3px;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.me5e-mod-pip.empty {
+  border-style: dashed;
+  opacity: 0.6;
+}
+
+.me5e-mod-pip.filled {
+  padding: 1px;
+}
+
+.me5e-mod-pip.filled img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: none;
+}
+
+/* Toggleable mod (ammo) switched inactive — dimmed + desaturated. */
+.me5e-mod-pip.filled.inactive {
+  border-style: dashed;
+  opacity: 0.45;
+}
+
+.me5e-mod-pip.filled.inactive img {
+  filter: grayscale(0.85);
+}
+
+/* Toggleable ammo mod that's loaded (active) — positive glow so "loaded"
+   reads at a glance, distinct from the dashed/dimmed inactive state. */
+.me5e-mod-pip.filled.ammo-active {
+  border-color: var(--dnd5e-color-success, #4b7d3b);
+  box-shadow: 0 0 4px 1px rgba(75, 125, 59, 0.65);
+}
+
+.me5e-mod-pip:hover:not(.disabled) {
+  background: rgba(156, 138, 89, 0.22);
+}
+
+.me5e-mod-pip.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.me5e-mod-pip-symbol {
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0.7;
+}
+
+/* ----- Mod picker dialog --------------------------------------------- */
+
+.me5e-mod-picker-current {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  background: rgba(156, 138, 89, 0.12);
+  border: 1px solid var(--dnd5e-color-gold, #9c8a59);
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.me5e-mod-picker-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.me5e-mod-picker-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 6px;
+  border-bottom: 1px solid rgba(156, 138, 89, 0.3);
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.me5e-mod-picker-row:hover {
+  background: rgba(156, 138, 89, 0.18);
+}
+
+.me5e-mod-picker-row img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border: none;
+}
+
+.me5e-mod-picker-name {
+  flex: 1 1 auto;
+}
+
+.me5e-mod-picker-rarity {
+  text-transform: capitalize;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.me5e-mod-picker-empty {
+  padding: 12px;
+  text-align: center;
+  opacity: 0.7;
+  font-style: italic;
+  font-size: 12px;
+  list-style: none;
+}
+
+/* ----- Point-caster (power-points) spellbook --------------------------- */
+/* The marker "slots" for power-points sections only exist so powers group by
+   level and the cast-at-level dialog offers the castable levels; the real
+   resource is the Power Points meter, so hide the per-section slot counters. */
+.spell-slots:has([data-level^="power-points"]),
+.spellbook [data-method="power-points"] .pips,
+.spellbook [data-method="power-points"] .spell-slots {
+  display: none;
+}
+
+/* ----- Primes / Detonates column (reskinned spellbook "school" column) --- */
+/* Widen the column past dnd5e's 40px so two icons (primer + detonator) and the
+   icon header fit without wrapping. .item-school is shared by header + cells.
+   !important: dnd5e's rule is deeply nested (high specificity). */
+.dnd5e2 .inventory-element .item-school { width: 60px !important; }
+.me5e-combo-cell {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: center;
+  overflow: hidden;
+}
+.me5e-combo-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+  border: none;
+  object-fit: contain;
+}
+.me5e-combo-det {
+  flex: 0 0 auto;
+  color: var(--dnd5e-color-gold, #9f6b1b);
+}
+.me5e-combo-head {
+  color: var(--dnd5e-color-gold, #9f6b1b);
+  font-size: var(--font-size-13, 13px);
+  opacity: 0.85;
+}
+
+/* ----- Powercasting card: keep "Power DC" (and other labels) on one line --- */
+.tab[data-tab="spells"] .spellcasting.card { width: 260px !important; }
+.tab[data-tab="spells"] .spellcasting.card .info > div .label { white-space: nowrap; }
+
+/* Advanced-version selector on power spellbook rows (prototype). Compact, sits
+   under the power name without disturbing the column grid. */
+.me5e-adv-select {
+  display: block;
+  margin-top: 2px;
+  max-width: 100%;
+  height: 18px;
+  padding: 0 2px;
+  font-size: var(--font-size-10, 10px);
+  line-height: 16px;
+  color: var(--color-text-dark-secondary, #4b4a44);
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--dnd5e-color-faint, rgba(0, 0, 0, 0.2));
+  border-radius: 3px;
+}
+.me5e-adv-select:hover { border-color: var(--dnd5e-color-gold, #9b8757); }
+/* Augment is unaffordable (class at its power limit): dim the control. */
+.me5e-adv-select--full { opacity: 0.55; border-style: dashed; }
+
+/* ----- Power budget indicator (top of the spells tab) --------------------- */
+.me5e-injected-power-budget {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  margin: 4px 0 6px;
+  padding: 3px 6px;
+  font-size: var(--font-size-11, 11px);
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid var(--dnd5e-color-faint, rgba(0, 0, 0, 0.15));
+}
+.me5e-power-budget-row { white-space: nowrap; }
+.me5e-power-budget-row.me5e-at-budget { color: var(--dnd5e-color-gold, #9b8757); font-weight: 600; }
+.me5e-power-budget-row.me5e-over-budget { color: var(--dnd5e-color-red, #6f0000); font-weight: 600; }
