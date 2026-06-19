@@ -1,5 +1,9 @@
 # Mass Effect 5e
 
+<p align="center">
+<img width="50%" alt="CharacterSheetImage" src="https://github.com/user-attachments/assets/e1195c61-611d-40bd-84cb-cbd05eb7b579" />
+</p>
+
 A **Mass Effect** setting layer for the Foundry VTT **D&D 5e** system. It adds the
 defenses, weapons, powers, and combat flow of the Mass Effect universe on top of
 the rules you already know: layered shields/barriers/tech armor, weapon heat and
