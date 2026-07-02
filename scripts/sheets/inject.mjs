@@ -4,7 +4,7 @@ import { getTechArmor, setTechArmor } from "../techArmor.mjs";
 import { getPowerPoints, setPowerPoints } from "../powerPoints.mjs";
 import { getReputation, setParagon, setRenegade } from "../reputation.mjs";
 import { getPowerBudgets } from "../powers.mjs";
-import { computeArmorState, getEquippedByPlacement, summarizeArmorBuffs, getArmorShieldsRegen, isArmorProficient, getActiveSetBonuses } from "../armor.mjs";
+import { computeArmorState, getEquippedByPlacement, summarizeArmorBuffs, getArmorShieldsRegen, isArmorProficient, getActiveSetBonuses, getMe5eArmorFlags } from "../armor.mjs";
 import { getWeaponSlots, getWeaponDamageFormula, getDisplayProperties, isWeaponProficient } from "../weapons.mjs";
 import { weaponPropertyLabel, weaponPropertyDescription } from "../weaponProperties.mjs";
 import {
@@ -769,12 +769,29 @@ function wireArmorLoadout(root, actor) {
   }
 }
 
-function findInventoryTabAnchor(root) {
-  const tab = root.querySelector('section.tab[data-tab="inventory"]')
+function findInventoryTab(root) {
+  return root.querySelector('section.tab[data-tab="inventory"]')
     || root.querySelector('.tab[data-tab="inventory"]')
     || root.querySelector('.tab.inventory');
-  if (!tab) return null;
-  return tab.querySelector(".top") ?? tab.firstElementChild;
+}
+
+// Insert a loadout panel at the top of the inventory tab. The character sheet
+// leads its inventory tab with an encumbrance/currency `.top` bar, so panels go
+// right after it (keeping encumbrance on top). NPC inventory tabs have no
+// `.top`, so panels go at the very top, before the `<inventory-element>` list.
+// Pass `afterPanel` (the already-inserted armor panel) to stack the weapon panel
+// directly beneath it. Returns false if there's no inventory tab to anchor to.
+function insertInventoryPanel(root, panel, afterPanel = null) {
+  const tab = findInventoryTab(root);
+  if (!tab) return false;
+  if (afterPanel && afterPanel.parentElement) {
+    afterPanel.parentElement.insertBefore(panel, afterPanel.nextSibling);
+    return true;
+  }
+  const top = tab.querySelector(".top");
+  if (top?.parentElement) top.parentElement.insertBefore(panel, top.nextSibling);
+  else tab.insertBefore(panel, tab.firstElementChild);
+  return true;
 }
 
 function renderReputationPanel(actor) {
@@ -1114,31 +1131,25 @@ export function injectIntoSheet(app, html, data) {
     }
   }
 
-  // Armor loadout panel at the top of the inventory tab (characters only —
-  // NPCs use plain stat-block AC + action attacks, not the equipment loadout).
-  if (actor.type === "character" && !root.querySelector(".me5e-armor-loadout")) {
-    const invAnchor = findInventoryTabAnchor(root);
-    if (invAnchor?.parentElement) {
-      const loadout = document.createElement("div");
-      loadout.className = "me5e-injected me5e-injected-armor-loadout";
-      loadout.innerHTML = renderArmorLoadout(actor);
-      // Insert after the anchor (`.top` div) so encumbrance stays on top.
-      invAnchor.parentElement.insertBefore(loadout, invAnchor.nextSibling);
-      wireArmorLoadout(loadout, actor);
-    }
+  // Armor + weapon loadout panels at the top of the inventory tab. Enabled for
+  // characters and NPCs — an NPC can carry ME weapons/armor (bestiary actors do)
+  // and benefits from the same heat/mod/shield controls; vehicles bail earlier.
+  const usesLoadout = actor.type === "character" || actor.type === "npc";
+
+  if (usesLoadout && !root.querySelector(".me5e-armor-loadout")) {
+    const loadout = document.createElement("div");
+    loadout.className = "me5e-injected me5e-injected-armor-loadout";
+    loadout.innerHTML = renderArmorLoadout(actor);
+    if (insertInventoryPanel(root, loadout)) wireArmorLoadout(loadout, actor);
   }
 
-  // Weapon loadout panel directly under armor loadout (characters only).
-  if (actor.type === "character" && !root.querySelector(".me5e-weapon-loadout")) {
+  // Weapon loadout panel directly under the armor loadout.
+  if (usesLoadout && !root.querySelector(".me5e-weapon-loadout")) {
     const armorPanel = root.querySelector(".me5e-injected-armor-loadout");
-    const anchor = armorPanel ?? findInventoryTabAnchor(root);
-    if (anchor?.parentElement) {
-      const loadout = document.createElement("div");
-      loadout.className = "me5e-injected me5e-injected-weapon-loadout";
-      loadout.innerHTML = renderWeaponLoadout(actor);
-      anchor.parentElement.insertBefore(loadout, anchor.nextSibling);
-      wireWeaponLoadout(loadout, actor);
-    }
+    const loadout = document.createElement("div");
+    loadout.className = "me5e-injected me5e-injected-weapon-loadout";
+    loadout.innerHTML = renderWeaponLoadout(actor);
+    if (insertInventoryPanel(root, loadout, armorPanel)) wireWeaponLoadout(loadout, actor);
   }
 
   // Reputation above favorites (character only)
@@ -1167,6 +1178,86 @@ export function injectIntoSheet(app, html, data) {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Item-sheet customization panel
+//
+// The stock dnd5e item sheet never renders our custom flags, so weapon Heat and
+// armor Shield capacity/regen — all `flags.me5e.*` baked by the build pipeline —
+// are otherwise invisible and un-editable. This appends a small config fieldset
+// to the Details tab so an item's OWNER can tune those values directly. Runtime
+// reads the same flags live (getHeatMax / computeArmorState), so edits apply
+// immediately with no rebuild and survive pack updates.
+// ---------------------------------------------------------------------------
+
+function itemConfigRow(label, key, value, editable) {
+  return `
+    <div class="form-group">
+      <label>${escapeAttr(label)}</label>
+      <div class="form-fields">
+        <input type="number" class="me5e-item-config-input" data-flag="${escapeAttr(key)}"
+               value="${Number(value) || 0}" min="0" step="1" ${editable ? "" : "disabled"} />
+      </div>
+    </div>`;
+}
+
+function renderItemConfig(item, editable) {
+  const legend = game.i18n.localize("ME5E.Item.ConfigLegend");
+  let rows = "";
+  if (item.type === "weapon") {
+    const heat = item.getFlag(MODULE_ID, "weapon.heat") ?? 0;
+    rows += itemConfigRow(game.i18n.localize("ME5E.Item.HeatLabel"), "weapon.heat", heat, editable);
+  }
+  if (getMe5eArmorFlags(item)) {
+    const shields = getMe5eArmorFlags(item)?.shields ?? {};
+    rows += itemConfigRow(
+      game.i18n.localize("ME5E.Item.ShieldCapacityLabel"),
+      "armor.shields.capacity.value", shields.capacity?.value ?? 0, editable
+    );
+    rows += itemConfigRow(
+      game.i18n.localize("ME5E.Item.ShieldRegenLabel"),
+      "armor.shields.regen.value", shields.regen?.value ?? 0, editable
+    );
+  }
+  if (!rows) return "";
+  return `<fieldset class="me5e-item-config"><legend>${escapeAttr(legend)}</legend>${rows}</fieldset>`;
+}
+
+export function injectIntoItemSheet(app, html) {
+  const item = app.item ?? app.document ?? app.object;
+  if (!item) return;
+  // Only ME weapons and ME armor carry the flags we expose.
+  if (item.type !== "weapon" && !getMe5eArmorFlags(item)) return;
+
+  const root = html instanceof HTMLElement ? html : html?.[0];
+  if (!root) return;
+  if (root.querySelector(".me5e-item-config")) return;
+
+  // Anchor to the Details tab. Match the actor injector's proven fallback
+  // pattern — the `data-application-part` attribute alone isn't reliable across
+  // dnd5e sheet variants, so also accept the `.tab[data-tab]` form. If the tab
+  // is absent (e.g. an unidentified item hides Details) skip.
+  const details = root.querySelector('.tab[data-tab="details"], [data-application-part="details"]');
+  if (!details) return;
+
+  const editable = app.isEditable !== false && item.isOwner;
+  const configHTML = renderItemConfig(item, editable);
+  if (!configHTML) return;
+
+  const wrap = document.createElement("div");
+  wrap.innerHTML = configHTML;
+  const fieldset = wrap.firstElementChild;
+  details.appendChild(fieldset);
+
+  if (!editable) return;
+  for (const input of fieldset.querySelectorAll(".me5e-item-config-input")) {
+    input.addEventListener("change", () => {
+      const key = input.dataset.flag;
+      const next = Math.max(0, Number(input.value) || 0);
+      item.setFlag(MODULE_ID, key, next);
+    });
+  }
+}
+
 export function registerSheetInjection() {
   // Injects shield/barrier/reputation panel into the *stock* dnd5e sheets only.
   // dnd5e 5.3.3 ships AppV2 sheets; the legacy `renderActorSheet5e*` (AppV1)
@@ -1174,4 +1265,6 @@ export function registerSheetInjection() {
   Hooks.on("renderCharacterActorSheet", injectIntoSheet);
   Hooks.on("renderNPCActorSheet", injectIntoSheet);
   Hooks.on("renderVehicleActorSheet", injectIntoSheet);
+  // Every non-container item (weapon + equipment/armor) uses ItemSheet5e.
+  Hooks.on("renderItemSheet5e", injectIntoItemSheet);
 }

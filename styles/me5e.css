@@ -867,3 +867,17 @@ filigree-box.me5e-reputation .me5e-rep-renegade-input {
 .me5e-power-budget-row { white-space: nowrap; }
 .me5e-power-budget-row.me5e-at-budget { color: var(--dnd5e-color-gold, #9b8757); font-weight: 600; }
 .me5e-power-budget-row.me5e-over-budget { color: var(--dnd5e-color-red, #6f0000); font-weight: 600; }
+
+/* Item-sheet customization panel (weapon Heat, armor Shields/Regen). */
+.me5e-item-config {
+  margin: 0.5rem 0 0;
+  padding: 0.35rem 0.5rem 0.5rem;
+  border: 1px solid var(--dnd5e-color-faint, rgba(0, 0, 0, 0.15));
+  border-radius: 4px;
+}
+.me5e-item-config > legend {
+  padding: 0 0.35rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: var(--font-size-11, 0.6875rem);
+}
