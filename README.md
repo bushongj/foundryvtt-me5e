@@ -19,8 +19,8 @@ Game content is adapted from the community **Mass Effect 5e** rules.
 
 | | Version |
 |---|---|
-| **Foundry VTT** | v12 or newer (verified on v14) |
-| **D&D 5e system** | v3.3.0 or newer (verified on v5.3.3) |
+| **Foundry VTT** | v14 or newer (verified on v14) |
+| **D&D 5e system** | v5.3.3 or newer (verified on v5.3.3) |
 
 The module ships its own compendium content, so the only thing you need installed
 alongside it is the **dnd5e** system. Install and activate dnd5e first.
